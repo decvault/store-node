@@ -1,0 +1,13 @@
+# General
+.DS_Store
+.idea
+
+# Env files
+.env
+
+# Go workspace files
+go.work
+go.work.sum
+
+# Generated files directory
+pb/
