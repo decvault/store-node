@@ -1,0 +1,26 @@
+syntax="proto3";
+
+package decvault.store_node;
+
+option go_package = "github.com/decvault/store_node/api;store_node";
+
+service StoreNode {
+  rpc GetShard(GetShardRequest) returns (GetShardResponse);
+
+  rpc PutShard(PutShardRequest) returns (PutShardResponse);
+}
+
+message GetShardRequest {
+  string secret_id = 1;
+}
+
+message GetShardResponse {
+  bytes shard = 1;
+}
+
+message PutShardRequest {
+  string secret_id = 1;
+  bytes shard = 2;
+}
+
+message PutShardResponse {}

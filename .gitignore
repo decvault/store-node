@@ -11,3 +11,9 @@ go.work.sum
 
 # Generated files directory
 pb/
+
+# Local config files
+*.dev.yaml
+
+# Local docker containers data directory
+.data/
