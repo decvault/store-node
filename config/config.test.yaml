@@ -1,2 +1,4 @@
 logging:
   log_level: "debug"
+badger:
+  path: /var/lib/badger

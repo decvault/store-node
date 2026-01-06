@@ -5,22 +5,23 @@ package decvault.store_node;
 option go_package = "github.com/decvault/store_node/api;store_node";
 
 service StoreNode {
-  rpc GetShard(GetShardRequest) returns (GetShardResponse);
+  rpc GetShards(GetShardsRequest) returns (GetShardsResponse);
 
-  rpc PutShard(PutShardRequest) returns (PutShardResponse);
+  rpc PutShards(PutShardsRequest) returns (PutShardsResponse);
 }
 
-message GetShardRequest {
+message GetShardsRequest {
   string secret_id = 1;
+  repeated uint32 shard_ids = 2;
 }
 
-message GetShardResponse {
-  bytes shard = 1;
+message GetShardsResponse {
+  map<uint32, bytes> shards = 1;
 }
 
-message PutShardRequest {
+message PutShardsRequest {
   string secret_id = 1;
-  bytes shard = 2;
+  map<uint32, bytes> shards = 2;
 }
 
-message PutShardResponse {}
+message PutShardsResponse {}

@@ -2,29 +2,41 @@ package grpcsrv
 
 import (
 	"github.com/decvault/library/common/grpcsrv"
-	"github.com/decvault/store-node/internal/grpcsrv/options"
+	panicintc "github.com/decvault/library/common/grpcsrv/options/interceptors/unary/panic"
 	"github.com/decvault/store-node/internal/grpcsrv/store_node"
+	"go.uber.org/fx"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
 	api "github.com/decvault/store-node/internal/pb/github.com/decvault/store_node/api"
 )
 
-func ProvideGrpcServerSetupFunc() grpcsrv.SetupFunc {
-	return func(server *grpc.Server) {
-		api.RegisterStoreNodeServer(
-			server,
-			store_node.NewService(),
-		)
+type Params struct {
+	fx.In
 
-		reflection.Register(server)
+	PanicInterceptor grpc.UnaryServerInterceptor `name:"panic_handler"`
+}
+
+func Module() fx.Option {
+	return fx.Module(
+		"grpcsrv_opts",
+		panicintc.Module(),
+	)
+}
+
+func NewGrpcServerSetupOpts(opts Params) grpcsrv.SetupOpts {
+	return []grpc.ServerOption{
+		grpc.UnaryInterceptor(opts.PanicInterceptor),
 	}
 }
 
-func ProvideGrpcServerSetupOpts(
-	options options.Params,
-) grpcsrv.SetupOpts {
-	return []grpc.ServerOption{
-		grpc.UnaryInterceptor(options.PanicInterceptor),
+func NewGrpcServerSetupFunc(service *store_node.Service) grpcsrv.SetupFunc {
+	return func(server *grpc.Server) {
+		api.RegisterStoreNodeServer(
+			server,
+			service,
+		)
+
+		reflection.Register(server)
 	}
 }

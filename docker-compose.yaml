@@ -1,0 +1,60 @@
+services:
+  store-node-1:
+    image: store-node:latest
+    container_name: store-node-1
+    ports:
+      - "50101:${GRPC_SERVER_PORT}"
+    environment:
+      APP_STAGE: ${APP_STAGE}
+      GRPC_SERVER_PORT: ${GRPC_SERVER_PORT}
+    volumes:
+      - ./.data/badger/store-node-1:/var/lib/bagger:rw
+    restart: always
+
+  store-node-2:
+    image: store-node:latest
+    container_name: store-node-2
+    ports:
+      - "50102:${GRPC_SERVER_PORT}"
+    environment:
+      APP_STAGE: ${APP_STAGE}
+      GRPC_SERVER_PORT: ${GRPC_SERVER_PORT}
+    volumes:
+      - ./.data/badger/store-node-2:/var/lib/bagger:rw
+    restart: always
+
+  store-node-3:
+    image: store-node:latest
+    container_name: store-node-3
+    ports:
+      - "50103:${GRPC_SERVER_PORT}"
+    environment:
+      APP_STAGE: ${APP_STAGE}
+      GRPC_SERVER_PORT: ${GRPC_SERVER_PORT}
+    volumes:
+      - ./.data/badger/store-node-3:/var/lib/bagger:rw
+    restart: always
+
+  store-node-4:
+    image: store-node:latest
+    container_name: store-node-4
+    ports:
+      - "50104:${GRPC_SERVER_PORT}"
+    environment:
+      APP_STAGE: ${APP_STAGE}
+      GRPC_SERVER_PORT: ${GRPC_SERVER_PORT}
+    volumes:
+      - ./.data/badger/store-node-4:/var/lib/bagger:rw
+    restart: always
+
+  store-node-5:
+    image: store-node:latest
+    container_name: store-node-5
+    ports:
+      - "50105:${GRPC_SERVER_PORT}"
+    environment:
+      APP_STAGE: ${APP_STAGE}
+      GRPC_SERVER_PORT: ${GRPC_SERVER_PORT}
+    volumes:
+      - ./.data/badger/store-node-5:/var/lib/bagger:rw
+    restart: always
