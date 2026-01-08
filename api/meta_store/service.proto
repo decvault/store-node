@@ -1,0 +1,76 @@
+syntax="proto3";
+
+package decvault.meta_store;
+
+option go_package = "github.com/decvault/meta_store/api;meta_store";
+
+service MetaStore {
+  rpc GetMeta(GetMetaRequest) returns (GetMetaResponse);
+  rpc AddMeta(AddMetaRequest) returns (AddMetaResponse);
+
+  rpc AddAdmin(AddAdminRequest) returns (AddAdminResponse);
+  rpc RemoveAdmin(RemoveAdminRequest) returns (RemoveAdminResponse);
+
+  rpc AddReader(AddReaderRequest) returns (AddReaderResponse);
+  rpc RemoveReader(RemoveReaderRequest) returns (RemoveReaderResponse);
+}
+
+message GetMetaRequest {
+  string secret_id = 1;
+  string caller_id = 2;
+}
+
+message GetMetaResponse {
+  bytes encrypted_dek = 1;
+  int64 threshold = 2;
+  int64 shards = 3;
+}
+
+message AddMetaRequest {
+  string secret_id = 1;
+  string admin_id = 2;
+  bytes admin_public_key = 3;
+  bytes dek = 4;
+  int64 threshold = 5;
+  int64 shards = 6;
+}
+
+message AddMetaResponse {}
+
+message AddAdminRequest {
+  string secret_id = 1;
+  string caller_admin_id = 2;
+  bytes caller_admin_private_key = 3;
+  string new_admin_id = 4;
+  bytes new_admin_public_key = 5;
+}
+
+message AddAdminResponse {}
+
+message RemoveAdminRequest {
+  string secret_id = 1;
+  string caller_admin_id = 2;
+  bytes caller_admin_private_key = 3;
+  string removed_admin_id = 4;
+}
+
+message RemoveAdminResponse {}
+
+message AddReaderRequest {
+  string secret_id = 1;
+  string caller_admin_id = 2;
+  bytes caller_admin_private_key = 3;
+  string new_reader_id = 4;
+  bytes new_reader_public_key = 5;
+}
+
+message AddReaderResponse {}
+
+message RemoveReaderRequest {
+  string secret_id = 1;
+  string caller_admin_id = 2;
+  bytes caller_admin_private_key = 3;
+  string removed_reader_id = 4;
+}
+
+message RemoveReaderResponse {}

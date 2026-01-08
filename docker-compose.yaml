@@ -8,7 +8,7 @@ services:
       APP_STAGE: ${APP_STAGE}
       GRPC_SERVER_PORT: ${GRPC_SERVER_PORT}
     volumes:
-      - ./.data/badger/store-node-1:/var/lib/bagger:rw
+      - ./.data/badger/store-node-1:/var/lib/badger:rw
     restart: always
 
   store-node-2:
@@ -20,7 +20,7 @@ services:
       APP_STAGE: ${APP_STAGE}
       GRPC_SERVER_PORT: ${GRPC_SERVER_PORT}
     volumes:
-      - ./.data/badger/store-node-2:/var/lib/bagger:rw
+      - ./.data/badger/store-node-2:/var/lib/badger:rw
     restart: always
 
   store-node-3:
@@ -32,7 +32,7 @@ services:
       APP_STAGE: ${APP_STAGE}
       GRPC_SERVER_PORT: ${GRPC_SERVER_PORT}
     volumes:
-      - ./.data/badger/store-node-3:/var/lib/bagger:rw
+      - ./.data/badger/store-node-3:/var/lib/badger:rw
     restart: always
 
   store-node-4:
@@ -44,7 +44,7 @@ services:
       APP_STAGE: ${APP_STAGE}
       GRPC_SERVER_PORT: ${GRPC_SERVER_PORT}
     volumes:
-      - ./.data/badger/store-node-4:/var/lib/bagger:rw
+      - ./.data/badger/store-node-4:/var/lib/badger:rw
     restart: always
 
   store-node-5:
@@ -56,5 +56,5 @@ services:
       APP_STAGE: ${APP_STAGE}
       GRPC_SERVER_PORT: ${GRPC_SERVER_PORT}
     volumes:
-      - ./.data/badger/store-node-5:/var/lib/bagger:rw
+      - ./.data/badger/store-node-5:/var/lib/badger:rw
     restart: always

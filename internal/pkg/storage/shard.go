@@ -7,13 +7,12 @@ import (
 	"time"
 
 	"github.com/dgraph-io/badger/v4"
-	"github.com/google/uuid"
 	"github.com/pkg/errors"
 )
 
 type ShardStorage interface {
-	GetShards(ctx context.Context, secretID uuid.UUID, shardIDs []uint32) (map[uint32][]byte, error)
-	SaveShards(ctx context.Context, secretID uuid.UUID, shards map[uint32][]byte) error
+	GetShards(ctx context.Context, secretID string, shardIDs []uint32) (map[uint32][]byte, error)
+	SaveShards(ctx context.Context, secretID string, shards map[uint32][]byte) error
 }
 
 type shardStorage struct {
@@ -26,7 +25,7 @@ func NewShardStorage(db *badger.DB) ShardStorage {
 	}
 }
 
-func (s *shardStorage) GetShards(_ context.Context, secretID uuid.UUID, shardIDs []uint32) (map[uint32][]byte, error) {
+func (s *shardStorage) GetShards(_ context.Context, secretID string, shardIDs []uint32) (map[uint32][]byte, error) {
 	shards := make(map[uint32][]byte)
 	err := s.db.View(func(txn *badger.Txn) error {
 		for _, shardID := range shardIDs {
@@ -57,7 +56,7 @@ func (s *shardStorage) GetShards(_ context.Context, secretID uuid.UUID, shardIDs
 	return shards, errors.WithStack(err)
 }
 
-func (s *shardStorage) SaveShards(_ context.Context, secretID uuid.UUID, shards map[uint32][]byte) error {
+func (s *shardStorage) SaveShards(_ context.Context, secretID string, shards map[uint32][]byte) error {
 	currentTimestamp := time.Now().UnixMilli()
 	return s.db.Update(func(txn *badger.Txn) error {
 		for shardID, data := range shards {
@@ -79,8 +78,8 @@ func (s *shardStorage) SaveShards(_ context.Context, secretID uuid.UUID, shards 
 	})
 }
 
-func shardKey(secretID uuid.UUID, shardID uint32) []byte {
-	return []byte(fmt.Sprintf("secret:%s:%d", secretID.String(), shardID))
+func shardKey(secretID string, shardID uint32) []byte {
+	return []byte(fmt.Sprintf("secret:%s:%d", secretID, shardID))
 }
 
 type shardValue struct {

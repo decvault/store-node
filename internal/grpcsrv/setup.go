@@ -3,12 +3,14 @@ package grpcsrv
 import (
 	"github.com/decvault/library/common/grpcsrv"
 	panicintc "github.com/decvault/library/common/grpcsrv/options/interceptors/unary/panic"
-	"github.com/decvault/store-node/internal/grpcsrv/store_node"
+	"github.com/decvault/store-node/internal/grpcsrv/meta_store"
+	"github.com/decvault/store-node/internal/grpcsrv/shard_store"
 	"go.uber.org/fx"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
-	api "github.com/decvault/store-node/internal/pb/github.com/decvault/store_node/api"
+	meta_store_api "github.com/decvault/store-node/internal/pb/github.com/decvault/meta_store/api"
+	shard_store_api "github.com/decvault/store-node/internal/pb/github.com/decvault/shard_store/api"
 )
 
 type Params struct {
@@ -30,11 +32,19 @@ func NewGrpcServerSetupOpts(opts Params) grpcsrv.SetupOpts {
 	}
 }
 
-func NewGrpcServerSetupFunc(service *store_node.Service) grpcsrv.SetupFunc {
+func NewGrpcServerSetupFunc(
+	shardStore *shard_store.Service,
+	metaStore *meta_store.Service,
+) grpcsrv.SetupFunc {
 	return func(server *grpc.Server) {
-		api.RegisterStoreNodeServer(
+		shard_store_api.RegisterShardStoreServer(
 			server,
-			service,
+			shardStore,
+		)
+
+		meta_store_api.RegisterMetaStoreServer(
+			server,
+			metaStore,
 		)
 
 		reflection.Register(server)

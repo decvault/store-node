@@ -1,22 +1,15 @@
-package store_node
+package shard_store
 
 import (
 	"context"
 
-	api "github.com/decvault/store-node/internal/pb/github.com/decvault/store_node/api"
-	"github.com/google/uuid"
-	"github.com/pkg/errors"
+	api "github.com/decvault/store-node/internal/pb/github.com/decvault/shard_store/api"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
 func (s *Service) GetShards(ctx context.Context, request *api.GetShardsRequest) (*api.GetShardsResponse, error) {
-	secretID, err := uuid.Parse(request.SecretId)
-	if err != nil {
-		return nil, errors.WithStack(err)
-	}
-
-	shards, err := s.storage.GetShards(ctx, secretID, request.ShardIds)
+	shards, err := s.storage.GetShards(ctx, request.GetSecretId(), request.ShardIds)
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}

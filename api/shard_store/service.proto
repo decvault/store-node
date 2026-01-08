@@ -1,12 +1,11 @@
 syntax="proto3";
 
-package decvault.store_node;
+package decvault.shard_store;
 
-option go_package = "github.com/decvault/store_node/api;store_node";
+option go_package = "github.com/decvault/shard_store/api;shard_store";
 
-service StoreNode {
+service ShardStore {
   rpc GetShards(GetShardsRequest) returns (GetShardsResponse);
-
   rpc PutShards(PutShardsRequest) returns (PutShardsResponse);
 }
 

@@ -1,12 +1,12 @@
-package store_node
+package shard_store
 
 import (
-	api "github.com/decvault/store-node/internal/pb/github.com/decvault/store_node/api"
+	api "github.com/decvault/store-node/internal/pb/github.com/decvault/shard_store/api"
 	"github.com/decvault/store-node/internal/pkg/storage"
 )
 
 type Service struct {
-	api.UnimplementedStoreNodeServer
+	api.UnimplementedShardStoreServer
 
 	storage storage.ShardStorage
 }
